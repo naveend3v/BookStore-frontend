@@ -1,0 +1,43 @@
+.form-container {
+    width: 30%;
+    box-shadow: 0 0px 15px 2px rgba(127, 126, 126, 0.799);
+}
+
+
+.navbar {
+    border-bottom: 1px solid white;
+}
+
+footer {
+    border-top: 1px solid white;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 425px) {
+    .form-container {
+        width: 80%;
+        padding: 2rem;
+    }
+}
+
+@media screen and (min-width: 425px) and (max-width: 600px) {
+    .form-container {
+        width: 65%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 700px) {
+    .form-container {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .form-container {
+        width: 370px;
+    }
+}
