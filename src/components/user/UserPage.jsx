@@ -1,9 +1,26 @@
-import React from 'react'
+import '../../components/Home.css'
+import { Routes, Route } from "react-router-dom"
+import Header from './Header'
+import Footer from './Footer'
+import Welcome from './Welcome'
+import Login from './Login'
+import SignUp from './SignUp'
 
-function UserPage() {
+export default function UserPage() {
   return (
-    <div>UserPage</div>
+    <div className="UserPage">
+      <Routes>
+        <Route path='/' element={
+          <>
+            <Header />
+            <Welcome />
+            <Footer />
+          </>
+        }>
+        </Route>
+        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/signup' element={<SignUp/>}></Route>
+      </Routes>
+    </div>
   )
 }
-
-export default UserPage

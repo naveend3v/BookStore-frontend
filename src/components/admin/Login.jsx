@@ -37,21 +37,21 @@ export default function LoginComponent() {
             <div className="form-container 40-w p-5 border rounded bg-white">
 
                 <form>
-                    <h2 className="text-center">GoodReads</h2>
+                    <h3 className="text-center">ReaderHub</h3>
 
                     {failureMessage && <div className="failureMessage text-danger text-center">Incorrect username or password.</div>}
 
-                    <div className="mb-2">
-                        <label htmlFor="username" className="pb-1">Username</label>
+                    <div className="">
+                        <label htmlFor="username" className=""/>
                         <input type="text" placeholder="Enter Username" className="form-control" onChange={updateUsername} required />
                     </div>
-                    <div className="mb-2">
-                        <label htmlFor="password" className="pb-1">Password</label>
+                    <div className="">
+                        <label htmlFor="password" className=""/>
                         <input type="password" placeholder="Enter Password" className="form-control" onChange={updatePassword} required />
                     </div>
 
                     <div className="d-grid mt-3">
-                        <button className="btn btn-primary" type="submit" onClick={handleLoginSubmit}>Sign-in</button>
+                        <button className="btn btn-primary" type="submit" onClick={handleLoginSubmit}>Log in</button>
                     </div>
                 </form>
             </div>

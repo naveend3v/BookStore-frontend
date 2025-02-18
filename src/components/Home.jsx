@@ -8,7 +8,7 @@ export default function Home() {
         <div className="Home">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<UserPage />
+                    <Route path="/*" element={<UserPage />
                     }></Route>
                     <Route path="/admin/*" element={<AdminPage />
                     }></Route>

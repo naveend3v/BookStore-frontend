@@ -6,6 +6,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Dashboard from './Dashboard'
 import AddBook from './AddBook'
+import ModifyBook from './ModifyBook'
 
 function AuthenticationRoute({ children }) {
 
@@ -30,7 +31,16 @@ export default function AdminPage() {
                     }></Route>
                     <Route path='add-book' element={
                         <AuthenticationRoute>
+                            <Header />
                             <AddBook />
+                            <Footer />
+                        </AuthenticationRoute>
+                    } />
+                    <Route path='edit-book/:id' element={
+                        <AuthenticationRoute>
+                            <Header />
+                            <ModifyBook />
+                            <Footer />
                         </AuthenticationRoute>
                     } />
                 </Routes>
