@@ -2,9 +2,38 @@
     width: 30%;
 }
 
-.navbar-brand:hover, .nav-link:hover{
+.navbar-nav .nav-item {
+    position: relative;
+}
+
+.navbar-nav .nav-link {
+    padding: 10px 15px; /* Adjust padding for better hover effect */
+    display: flex; /* Make sure it expands */
+    align-items: center; /* Center the text properly */
+    height: 100%; /* Ensures full height */
+}
+
+.navbar-nav .nav-link:hover {
     background-color: white;
     color: black !important;
+    border-radius: 5px; /* Optional: makes the hover effect look better */
+}
+
+/* 
+.navbar-brand:hover,
+.nav-link:hover {
+    background-color: white;
+    color: black !important;
+} */
+
+.books {
+    transition: transform .2s;
+    /* Animation */
+}
+
+.books:hover {
+    transform: scale(1.1);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 .welcome-text {

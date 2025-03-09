@@ -1,5 +1,11 @@
 import { ApiClient } from "../../api/ApiClient";
 
-const userLoginAPIService = (username, password) => ApiClient.post('/user/login', {username,password})
+export const userLoginAPIService = (userDetails) => ApiClient.post('/user/login', userDetails)
 
-const userSignUpAPIService = (username, password) => ApiClient.post('/user/signup', {username,password})
+export const userSignUpAPIService = (userDetails) => ApiClient.post('/user/signup', userDetails)
+
+export const getAllBooksAPIService = () => ApiClient.get('/user/books')
+
+export const getBookAPIService = (id) => ApiClient.get(`/user/books/${id}`)
+
+export const getAllCartAPIService = () => ApiClient.get(`/user/cart`)

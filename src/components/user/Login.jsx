@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './api/AuthContext';
 
 export default function Login() {
 
@@ -8,15 +9,33 @@ export default function Login() {
     password: ''
   })
 
+  const [errorMsg, setErrorMsg] = useState(false)
+
+  const navigate = useNavigate()
+
+  const authContext = useAuth()
+
   function HandeChange(event) {
     const name = event.target.name;
     const value = event.target.value;
     setCred(values => ({ ...values, [name]: value }))
   }
 
-  function handleSubmit(event) { 
+  async function handleSubmit(event) {
     event.preventDefault();
-    console.log(cred)
+    try {
+      if (await authContext.login(cred) ) {
+        setErrorMsg(false)
+        navigate('/books')
+      } else {
+        setErrorMsg(true)
+      }
+    } catch (error) {
+      setErrorMsg(true)
+      console.log(errorMsg)
+      console.log(`Error submitting login request: ${error}`)
+    }
+
   }
 
   return (
@@ -26,14 +45,14 @@ export default function Login() {
 
         <form onSubmit={handleSubmit}>
           <h3 className="text-center">ReaderHub</h3>
-
+          {errorMsg && <div className='text-danger text-center'>Incorrect username or password</div>}
           <div className="mb-2">
-            <label htmlFor="username" className="" />
+            <label for="username" className="" />
             <input type="text" placeholder="Enter Username" id="username" name="username" className="form-control" onChange={HandeChange} required />
           </div>
 
           <div className="mb-2">
-            <label htmlFor="password" className="" />
+            <label for="password" className="" />
             <input type="password" placeholder="Enter Password" id="password" name="password" className="form-control" onChange={HandeChange} required />
           </div>
 

@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "./api/AuthContext";
 
 export default function Header() {
+    
+    const authContext = useAuth()
+
+    function handleClick(){
+        authContext.logout();
+    }
 
     return (
         <div className="Header bg-dark">
-            <nav className="navbar navbar-dark sticky-top w-100 navbar-expand-md bg-dark px-5 py-0">
+            <nav className="navbar navbar-dark sticky-top w-100 navbar-expand-md bg-dark px-5 py-1">
                 <div className="container-xxl">
                     <Link className="navbar-brand fs-2 fw-bold text-light px-2 py-0" to="/admin/books">
                         <span>ReaderHub</span>
@@ -26,8 +33,9 @@ export default function Header() {
 
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item fs-5">
-                                <Link className="nav-link text-light" to="/admin/login">
-                                    Logout
+                                <Link className="nav-link text-light" to="/admin/login" onClick={handleClick}>
+                                <i class="bi bi-box-arrow-right pe-2"></i>
+                                    Log out
                                 </Link>
                             </li>
                         </ul>

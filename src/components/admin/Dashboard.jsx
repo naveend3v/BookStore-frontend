@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <div className='Dashboard dashboard-container py-5 bg-dark d-flex flex-column min-vh-100'>
       <div className="dashboard-content container text-center">
-        <div className="row text-center justify-content-center">
+        <div className="row text-center justify-content-center gap-3">
           {msg.length > 0 ? (
             msg.map((book) => (
               <div key={book.id} className='books col-md-4 d-flex flex-column justify-content-between p-2 bg-light text-dark text-center border rounded m-2'>

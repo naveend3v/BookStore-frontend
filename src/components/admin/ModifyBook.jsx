@@ -146,7 +146,7 @@ export default function ModifyBook() {
           </div>
 
           <div className="row mb-3">
-            <label htmlFor="formFile" className="col-sm-3 col-form-label">Book Cover Image</label>
+            <label for="formFile" className="col-sm-3 col-form-label">Book Cover Image</label>
             <div className="col-sm-7 d-flex flex-column justify-content-start align-items-center gap-2">
               <img className="m-1 rounded" width="150" src={oldBook.bookCoverImagePath} alt="" name="bookCoverImagePath" onChange={handleChange} />
               <div className='d-flex flex-column align-items-center gap-2'>

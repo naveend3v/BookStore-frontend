@@ -42,11 +42,12 @@ export default function LoginComponent() {
                     {failureMessage && <div className="failureMessage text-danger text-center">Incorrect username or password.</div>}
 
                     <div className="">
-                        <label htmlFor="username" className=""/>
+                        <label for="username" className=""/>
+                        <label for=""></label>
                         <input type="text" placeholder="Enter Username" className="form-control" onChange={updateUsername} required />
                     </div>
                     <div className="">
-                        <label htmlFor="password" className=""/>
+                        <label for="password" className=""/>
                         <input type="password" placeholder="Enter Password" className="form-control" onChange={updatePassword} required />
                     </div>
 

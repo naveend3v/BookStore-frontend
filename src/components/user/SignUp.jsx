@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { userSignUpAPIService } from './api/AuthApiService'
 
 export default function SignUp() {
 
   const [userDetails, setUserDetails] = useState({
     email: '',
-    username: '',
+    name: '',
     password: ''
   })
+
+  const navigate = useNavigate();
 
   function HandeChange(event) {
     const name = event.target.name;
@@ -14,9 +18,18 @@ export default function SignUp() {
     setUserDetails(values => ({ ...values, [name]: value }))
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     console.log(userDetails)
+    try {
+      const resp = await userSignUpAPIService(userDetails)
+
+      if (resp.status === 200) {
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(`Error in submitting user details : + ${error}`)
+    }
   }
 
   return (
@@ -29,17 +42,17 @@ export default function SignUp() {
             <h3 className="text-center">ReaderHub</h3>
 
             <div className="">
-              <label htmlFor="email" className="" />
+              <label for="email" className="" />
               <input type="email" className="form-control" placeholder="Enter Email Address" id="email" name="email" required />
             </div>
 
             <div className="">
-              <label htmlFor="username" className="" />
-              <input type="text" placeholder="Enter Username" id="username" name="username"  className="form-control" required />
+              <label for="username" className="" />
+              <input type="text" placeholder="Enter Username" id="username" name="name" className="form-control" required />
             </div>
 
             <div className="">
-              <label htmlFor="password" className="" />
+              <label for="password" className="" />
               <input type="password" placeholder="Enter Password" id="password" name="password" className="form-control" required />
             </div>
 
