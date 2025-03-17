@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllBooksAPIService } from "./api/AuthApiService";
+import { addtoCartAPIService, getAllBooksAPIService } from "./api/AuthApiService";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Dashboard() {
@@ -16,6 +16,18 @@ export default function Dashboard() {
                 .catch((error) => console.log(error))
         }, [location.pathname]
     )
+
+    function addToCart(id) {
+        const productDetaails = {
+            "product_id": id,
+            "quantity": 1
+        }
+        addtoCartAPIService(productDetaails).then(() => {
+            const event = new CustomEvent('cartUpdated');
+            window.dispatchEvent(event);
+        })
+            .catch((error) => console.log(error));
+    }
 
     return (
         <div className='Dashboard dashboard-container py-5 bg-dark d-flex flex-column min-vh-100'>
@@ -36,7 +48,7 @@ export default function Dashboard() {
                                     </div>
                                 </Link>
                                 <div>
-                                    <button className="btn btn-primary w-100" type='button'>Add to Cart</button>
+                                    <button className="btn btn-primary w-100" type='button' onClick={() => addToCart(book.id)}>Add to Cart</button>
                                 </div>
                                 {/* <div>
                                     <button className="btn btn-primary w-100" type='button' onClick={()=> handleClick(book.id)}>Buy</button>

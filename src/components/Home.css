@@ -58,12 +58,30 @@
     max-width: 200px !important;
 }
 
+.card-quantity {
+    display: inline-flex; /* Makes the container shrink-to-fit its content */
+    width: fit-content; /* Ensures the width is only as wide as its content */
+    padding: 0.25rem; /* Optional: Add some padding for better spacing */
+}
+
 @media screen and (max-width: 425px) {
     .form-container {
         width: 80%;
         padding: 2rem;
     }
 }
+
+@media (min-width: 992px) { 
+    .card-body {
+        gap: 4px !important;  /* Reduce gap for larger screens */
+    }
+    
+    .card img {
+        max-height: 180px !important; /* Limit image height */
+        object-fit: contain !important; /* Prevent stretching */
+    }
+}
+
 
 @media screen and (min-width: 425px) and (max-width: 600px) {
     .form-container {

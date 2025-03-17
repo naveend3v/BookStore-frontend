@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from './api/AuthContext'
+import { getAllCartAPIService } from './api/AuthApiService';
 
 export default function Header() {
 
@@ -13,6 +14,33 @@ export default function Header() {
   },  // eslint-disable-next-line 
     [authContext.isAuthenticate]
   );
+
+  const [totalItems, setTotalItems] = useState(0);
+
+  const fetchCartItems = () => {
+    if (authContext.isAuthenticated) {
+      getAllCartAPIService()
+        .then((response) => {
+          setTotalItems(response.data.message.cartItemsDto.length);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      setTotalItems(0); // Reset cart items when user logs out
+    }
+  };
+
+  useEffect(() => {
+    fetchCartItems(); // Initial fetch
+    window.addEventListener('cartUpdated', fetchCartItems); // Listen for custom event
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener('cartUpdated', fetchCartItems);
+  }, // eslint-disable-next-line  
+  [authContext.isAuthenticated]);
+
+  useEffect(() => {
+    setAuthStatus(authContext.isAuthenticated);
+  }, [authContext.isAuthenticated]);
 
   function handleClick() {
     authContext.logout();
@@ -52,14 +80,11 @@ export default function Header() {
                     Sign-up
                   </Link>
                 </li>}
-
-               
-
-                {authStatus &&
+              {authStatus &&
                 <li className="nav-item fs-5 d-flex">
                   <Link className="nav-link text-light" to="/cart">
-                  <i class="bi bi-cart pe-2"></i>
-                    Cart
+                    <i class="bi bi-cart pe-2"></i>
+                    Cart <span>&nbsp;({totalItems})</span>
                   </Link>
                 </li>}
               {authStatus &&
