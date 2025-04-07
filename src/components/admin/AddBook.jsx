@@ -92,14 +92,14 @@ export default function AddBook() {
           <div className="row mb-3">
             <label for="inputBookName" className="col-sm-3 col-form-label">Book Name</label>
             <div className="col-sm-7">
-              <input type="text" className="form-control bg-dark text-white" id="inputBookName" name='bookName' value={newBook.bookName} onChange={handleChange} minLength={1} maxLength={80} required />
+              <input type="text" className="form-control bg-dark text-white" id="inputBookName" name='bookName' value={newBook.bookName} onChange={handleChange} minLength={1} maxLength={150} required />
             </div>
           </div>
 
           <div className="row mb-3">
             <label for="inputAuthor" className="col-sm-3 col-form-label">Author Name</label>
             <div className="col-sm-7">
-              <input type="text" className="form-control bg-dark text-white" id="inputAuthor" name='author' value={newBook.author} onChange={handleChange} minLength={1} maxLength={80} required />
+              <input type="text" className="form-control bg-dark text-white" id="inputAuthor" name='author' value={newBook.author} onChange={handleChange} minLength={1} maxLength={150} required />
             </div>
           </div>
 
@@ -111,12 +111,15 @@ export default function AddBook() {
                 <option value="Medical">Medical</option>
                 <option value="Science-Geography">Science-Geography</option>
                 <option value="Biography">Biography</option>
+                <option value="Business">Business</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Personal-Development">Personal-Development</option>
+                <option value="Money">Money</option>
                 <option value="Sport">Sport</option>
                 <option value="Fiction">Fiction</option>
                 <option value="Self-Help">Self-Help</option>
                 <option value="Finance">Finance</option>
+                <option value="Psychology">Psychology</option>
               </select>
             </div>
           </div>

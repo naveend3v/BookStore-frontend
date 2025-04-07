@@ -9,7 +9,8 @@ export default function Login() {
     password: ''
   })
 
-  const [errorMsg, setErrorMsg] = useState(false)
+  const [authFailureStatus, setAuthFailureStatus] = useState(null);
+  const [failureMessage, setFailureMessage] = useState(null);
 
   const navigate = useNavigate()
 
@@ -23,19 +24,20 @@ export default function Login() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    const result = await authContext.login(cred);
     try {
-      if (await authContext.login(cred) ) {
-        setErrorMsg(false)
+      if (result.loginStatus) {
+        setAuthFailureStatus(false)
         navigate('/books')
       } else {
-        setErrorMsg(true)
+        setFailureMessage(result.message)
+        setAuthFailureStatus(true)
       }
     } catch (error) {
-      setErrorMsg(true)
-      console.log(errorMsg)
+      setFailureMessage(error.response.data.message)
       console.log(`Error submitting login request: ${error}`)
     }
-
   }
 
   return (
@@ -43,19 +45,15 @@ export default function Login() {
 
       <div className="form-container 40-w p-5 border rounded bg-white">
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} validate>
           <h3 className="text-center">ReaderHub</h3>
-          {errorMsg && <div className='text-danger text-center'>Incorrect username or password</div>}
+          {authFailureStatus && <div className='text-danger text-center'>{failureMessage}</div>}
           <div className="mb-2">
-            <label for="username" className="" />
-            <input type="text" placeholder="Enter Username" id="username" name="username" className="form-control" onChange={HandeChange} required />
+            <input type="text" placeholder="Enter Username" id="username" name="username" className="form-control my-4" onChange={HandeChange} required />
           </div>
-
           <div className="mb-2">
-            <label for="password" className="" />
-            <input type="password" placeholder="Enter Password" id="password" name="password" className="form-control" onChange={HandeChange} required />
+            <input type="password" placeholder="Enter Password" id="password" name="password" className="form-control my-4" onChange={HandeChange} required />
           </div>
-
           <div className="d-grid mt-3">
             <button className="btn btn-primary" type="submit">Log in</button>
           </div>

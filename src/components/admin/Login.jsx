@@ -1,5 +1,5 @@
 import '../../components/Home.css'
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from "./api/AuthContext"
 
@@ -9,9 +9,12 @@ export default function LoginComponent() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [authFailureStatus, setAuthFailureStatus] = useState(null);
     const [failureMessage, setFailureMessage] = useState(null);
 
     const navigate = useNavigate()
+
+    useEffect(() => {},[failureMessage])
 
     function updateUsername(event) {
         setUsername(event.target.value)
@@ -23,11 +26,13 @@ export default function LoginComponent() {
 
     async function handleLoginSubmit(event) {
         event.preventDefault();
-        if (await authContext.login(username, password)) {
-            setFailureMessage(false)
+        const result = await authContext.login(username, password)
+        if (result.loginStatus) {
+            setAuthFailureStatus(false)
             navigate(`/admin/books`)
         } else {
-            setFailureMessage(true)
+            setFailureMessage(result.message)
+            setAuthFailureStatus(true)
         }
     }
 
@@ -36,23 +41,17 @@ export default function LoginComponent() {
 
             <div className="form-container 40-w p-5 border rounded bg-white">
 
-                <form>
+                <form className='ValidateForm' validate onSubmit={handleLoginSubmit}>
                     <h3 className="text-center">ReaderHub</h3>
-
-                    {failureMessage && <div className="failureMessage text-danger text-center">Incorrect username or password.</div>}
-
+                    {authFailureStatus && <div className="failureMessage text-danger text-center">{failureMessage}</div>}
                     <div className="">
-                        <label for="username" className=""/>
-                        <label for=""></label>
-                        <input type="text" placeholder="Enter Username" className="form-control" onChange={updateUsername} required />
+                        <input type="text" placeholder="Enter Username" className="form-control my-4" onChange={updateUsername} required />
                     </div>
                     <div className="">
-                        <label for="password" className=""/>
-                        <input type="password" placeholder="Enter Password" className="form-control" onChange={updatePassword} required />
+                        <input type="password" placeholder="Enter Password" className="form-control my-4" onChange={updatePassword} required />
                     </div>
-
                     <div className="d-grid mt-3">
-                        <button className="btn btn-primary" type="submit" onClick={handleLoginSubmit}>Log in</button>
+                        <button className="btn btn-primary" type="submit">Log in</button>
                     </div>
                 </form>
             </div>

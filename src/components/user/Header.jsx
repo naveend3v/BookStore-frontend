@@ -36,7 +36,7 @@ export default function Header() {
     // Cleanup event listener on component unmount
     return () => window.removeEventListener('cartUpdated', fetchCartItems);
   }, // eslint-disable-next-line  
-  [authContext.isAuthenticated]);
+    [authContext.isAuthenticated]);
 
   useEffect(() => {
     setAuthStatus(authContext.isAuthenticated);
@@ -70,13 +70,13 @@ export default function Header() {
             <ul className="navbar-nav ms-auto px-3">
               {!authStatus &&
                 <li className="nav-item fs-5">
-                  <Link className="nav-link text-light" to="login">
+                  <Link className="nav-link text-light" to="/login">
                     Login
                   </Link>
                 </li>}
               {!authStatus &&
                 <li className="nav-item fs-5">
-                  <Link className="nav-link text-light" to="signup">
+                  <Link className="nav-link text-light" to="/signup">
                     Sign-up
                   </Link>
                 </li>}
@@ -89,7 +89,14 @@ export default function Header() {
                 </li>}
               {authStatus &&
                 <li className="nav-item fs-5 d-flex">
-                  <Link className="nav-link text-light" to="/" onClick={handleClick}>
+                  <Link className="nav-link text-light" to="/orders">
+                    <i class="bi bi-bag-check pe-2"></i>
+                    Orders
+                  </Link>
+                </li>}
+              {authStatus &&
+                <li className="nav-item fs-5 d-flex">
+                  <Link className="nav-link text-light" to="/" onClick={() => handleClick()}>
                     <i class="bi bi-box-arrow-right pe-2"></i>
                     Log out
                   </Link>

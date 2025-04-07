@@ -9,6 +9,10 @@ import Dashboard from './Dashboard'
 import AuthProvider, { useAuth } from './api/AuthContext'
 import ViewBook from './ViewBook'
 import ViewCart from './ViewCart'
+import PaymentSuccess from './PaymentSuccess'
+import PaymentFailed from './PaymentFailed'
+import Checkout from './Checkout'
+import ViewOrders from './ViewOrders'
 
 function AuthenticationRoute({ children }) {
 
@@ -50,12 +54,40 @@ export default function UserPage() {
           <Route path='/cart' element={
             <AuthenticationRoute>
               <Header />
-              <ViewCart/>
+              <ViewCart />
+              <Footer />
+            </AuthenticationRoute>
+          }></Route>
+          <Route path='/payment/success' element={
+            <>
+              <Header />
+              <PaymentSuccess />
+              <Footer />
+            </>
+          }></Route>
+          <Route path='/payment/failed' element={
+            <AuthenticationRoute>
+              <Header />
+              <PaymentFailed />
+              <Footer />
+            </AuthenticationRoute>
+          }></Route>
+          <Route path='/checkout' element={
+            <AuthenticationRoute>
+              <Header />
+              <Checkout />
+              <Footer />
+            </AuthenticationRoute>
+          }></Route>
+          <Route path='/orders' element={
+            <AuthenticationRoute>
+              <Header />
+              <ViewOrders />
               <Footer />
             </AuthenticationRoute>
           }></Route>
         </Routes>
-      </AuthProvider>
-    </div>
+      </AuthProvider >
+    </div >
   )
 }
