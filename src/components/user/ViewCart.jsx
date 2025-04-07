@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { deleteCartItemAPIService, getAllCartAPIService, updateCartItemAPIService } from "./api/AuthApiService";
-import { Link } from "react-router-dom";
+import { checkoutCartSessionAPIService, deleteCartItemAPIService, getAllCartAPIService, updateCartItemAPIService } from "./api/AuthApiService";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ViewCart() {
     const [cartItem, setCartItem] = useState([]);
     const [totalCost, setTotalCost] = useState(0); // Initialize with 0
+    const [checkoutItems, setCheckoutItems] = useState([]);
+    const navigate = useNavigate();
+
 
     function setCartValues(message) {
         setCartItem(message.cartItemsDto);
@@ -39,21 +42,44 @@ export default function ViewCart() {
             .catch((error) => console.log(error))
     }
 
-    async function updateCart(cartItemId,product_id,quantity){
+    async function updateCart(cartItemId, product_id, quantity) {
         const productDetaails = {
             "product_id": product_id,
             "quantity": quantity
         }
-        await updateCartItemAPIService(cartItemId,productDetaails)
-        .then((response) => {
-            if(response.status === 200){
-                const event = new CustomEvent('cartUpdated');
-            window.dispatchEvent(event);
-            console.log("fetching cart details using updateCart")
-                getAllCartDetails();
+        await updateCartItemAPIService(cartItemId, productDetaails)
+            .then((response) => {
+                if (response.status === 200) {
+                    const event = new CustomEvent('cartUpdated');
+                    window.dispatchEvent(event);
+                    console.log("fetching cart details using updateCart")
+                    getAllCartDetails();
+                }
+            })
+            .catch((error) => console.log(error))
+    }
+
+    // Auto-update checkoutItems whenever cartItem changes
+    useEffect(() => {
+        const updatedCheckoutItems = cartItem.map(item => ({
+            "bookId": item.book.id,
+            "productName": item.book.bookName,
+            "quantity": item.quantity,
+            "price": item.book.price
+        }));
+        setCheckoutItems(updatedCheckoutItems);
+    }, [cartItem]);
+
+    async function updateCheckutItems() {
+        console.log(checkoutItems)
+        await checkoutCartSessionAPIService(checkoutItems)
+            .then((response)=> {
+                console.log(response.data.sessionId)
+                sessionStorage.setItem('checkoutSessionId', response.data.sessionId)
+                navigate('/checkout')
             }
-        })
-        .catch((error)=>console.log(error))        
+        )
+            .catch((error=>console.log(error)))
     }
 
     return (
@@ -92,14 +118,14 @@ export default function ViewCart() {
                                                             <button
                                                                 type="button"
                                                                 className="btn-quantity btn btn-outline-light border-0 rounded-4 px-2 py-0"
-                                                            onClick={()=>updateCart(item.id,item.book.id,item.quantity-1)}>
+                                                                onClick={() => updateCart(item.id, item.book.id, item.quantity - 1)}>
                                                                 -
                                                             </button>
                                                         ) : (
                                                             <button
                                                                 type="button"
                                                                 className="btn-quantity btn btn-outline-light border-0 rounded-4 px-2 py-0"
-                                                            onClick={() => DeleteCart(item.id)}>
+                                                                onClick={() => DeleteCart(item.id)}>
                                                                 <i className="bi bi-trash"></i>
                                                             </button>
                                                         )}
@@ -107,7 +133,7 @@ export default function ViewCart() {
                                                         <button
                                                             type="button"
                                                             className="btn-quantity btn btn-outline-light border-0 rounded-4 px-2 py-0"
-                                                            onClick={() => updateCart(item.id,item.book.id,item.quantity+1)}
+                                                            onClick={() => updateCart(item.id, item.book.id, item.quantity + 1)}
                                                         >
                                                             +
                                                         </button>
@@ -131,14 +157,15 @@ export default function ViewCart() {
                         <div className="fs-5 mt-4 text-center">
                             <strong>Total Cost: ${totalCost.toFixed(2)}</strong>
                         </div>
+                        <button className="btn btn-primary mt-2" onClick={() => updateCheckutItems()}>Confirm Order</button>
                     </>
                 ) : (
                     <div className="text-center">
                         <div>
-                        <img src={require('./images/cart_empty.png')} className="w-75 my-auto" alt="" />
-                        <p className="fs-3">Your cart is empty!</p>
-                        <p className="fs-5">Looks like you haven't added any books. Go ahead & explore <span>
-                            <Link className="text-decoration-none" to="/books">books</Link></span></p>
+                            <img src={require('./images/cart_empty.png')} className="w-75 my-auto" alt="" />
+                            <p className="fs-3">Your cart is empty!</p>
+                            <p className="fs-5">Looks like you haven't added any books. Go ahead & explore <span>
+                                <Link className="text-decoration-none" to="/books">books</Link></span></p>
                         </div>
                     </div>
                 )}

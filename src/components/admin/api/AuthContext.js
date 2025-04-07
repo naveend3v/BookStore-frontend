@@ -10,14 +10,16 @@ export const useAuth = () => useContext(AuthContext);
 export default function AuthProvider({ children }) {
 
     const [isAuthenticated, setAuthentication] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
     const [token, setToken] = useState(null);
 
     async function login(username, password) {
         try {
+
             const resp = await adminLoginApiService(username, password);
-            const jwtToken = "Bearer " + resp.data.JwtToken
 
             if (resp.status === 200) {
+                const jwtToken = "Bearer " + resp.data.JwtToken
                 setAuthentication(true);
                 setToken(jwtToken);
 
@@ -28,17 +30,24 @@ export default function AuthProvider({ children }) {
                         return config
                     }
                 )
-
-                return true
-
+                return {'loginStatus':true}
             } else {
+                console.log('ERROR : ' + resp.data.message)
+                setErrorMessage(resp.data.message)
                 logout()
-                return false;
+                return {'loginStatus':false, 'message':resp.data.message}
             }
         } catch (error) {
-            logout()
-            return false;
+            console.log('ERROR : ', error)
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message)
+            } else {
+                setErrorMessage("An unexpected error occurred.")
+            }        
+            logout()            
+            return {'loginStatus':false, 'message': error.response.data.message}
         }
+        
 
     }
 
@@ -48,7 +57,7 @@ export default function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setAuthentication, login, token, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, setAuthentication, login, token, logout, errorMessage }}>
             {children}
         </AuthContext.Provider>
     )
