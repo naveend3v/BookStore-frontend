@@ -114,12 +114,15 @@ export default function ModifyBook() {
                 <option value="Medical">Medical</option>
                 <option value="Science-Geography">Science-Geography</option>
                 <option value="Biography">Biography</option>
+                <option value="Business">Business</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Personal-Development">Personal-Development</option>
+                <option value="Money">Money</option>
                 <option value="Sport">Sport</option>
                 <option value="Fiction">Fiction</option>
                 <option value="Self-Help">Self-Help</option>
                 <option value="Finance">Finance</option>
+                <option value="Psychology">Psychology</option>
               </select>
             </div>
           </div>
