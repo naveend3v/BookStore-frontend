@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { userSignUpAPIService } from './api/AuthApiService'
 
 export default function SignUp() {
@@ -58,6 +58,10 @@ export default function SignUp() {
 
             <div className="d-grid mt-3">
               <button className="btn btn-primary" type="submit">Sign Up</button>
+            </div>
+            <div className='text-center my-3'>
+              Have an account?&nbsp;
+              <Link to="/login" className='text-decoration-none fw-semibold'>Log in</Link>
             </div>
           </form>
         </div>
