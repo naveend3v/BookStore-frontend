@@ -75,6 +75,7 @@ export default function AuthProvider({ children }) {
             ApiClient.interceptors.request.eject(interceptor);
             setInterceptor(null);
         }
+        window.location.reload();
     }
 
     return (
